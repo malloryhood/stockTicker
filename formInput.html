@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" type = "text/css" href="/css/stockStyle.css">
+<title>Stock Ticker</title>
+</head>
+
+<body>
+    <script language="javascript">
+        $(document).ready(	
+        	function()
+        	{
+        		//default ticker input field to invisible
+        		co=$("p")[1];
+        		tick = $("p")[2];
+        		$(tick).toggle();
+        		
+        		//function to toggle visibility of fields when ticker or company option chosen
+        		$("input[name='co_tick']").click(function()
+        		{
+                    if (document.getElementById("tic").checked){
+                        tick.style.display = "block"
+                        co.style.display = "none"
+                        document.getElementById("company").value="";
+                    }
+                    if (document.getElementById("com").checked){
+                        co.style.display = "block"
+                        tick.style.display = "none"
+                         document.getElementById("ticker").value="";
+                    }
+        		}) 
+            })
+            
+            function validate()
+    			{
+    				errorMess=""; //initilaize values
+    				error=false;
+    				
+    				//gather values from form
+    				company=$("input[name='company']").val(); 
+    				ticker=$("input[name='ticker']").val();
+    				
+    				if (!company && !ticker){ //ensure last name entered
+    					errorMess=errorMess+"\nYou must enter a company name or ticker key."
+    					error=true;
+    				}
+                    //check for other errors
+                    if (error) //if there are any errors.
+    				{
+    					alert(errorMess) //display errors to user
+    					return false;
+    				}
+                    else{ //called if all input valid
+    					return true; //return true if valid input
+    				}
+                }
+    </script>
+    <h1>Stock Ticker Monitor</h1>
+    <h2>Please select desired input type:</h2><br>
+    either Company Name OR Stock Ticker<br>
+    (company name is default)
+    <form name='info', method='post' action='http://localhost:8080/process' onSubmit="return validate()" target="_blank">
+        <p><input type="radio"  name="co_tick" value = "com" id="com" checked=true/>Company Name  
+    	<input type="radio"  name="co_tick" value = "tic" id="tic"/>Ticker Key</p>
+        <p>Company Name: <input type="text"  name='company' id='company'/></p>
+        <p>Ticker Key:  <input type="text"  name='ticker' id='ticker'/></p>
+        <input type = "submit" value = "Submit" />
+       
+    </form>
+    
+</body>
+</html>
